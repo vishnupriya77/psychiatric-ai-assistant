@@ -4,6 +4,7 @@ This project is a Retrieval-Augmented Generation (RAG) powered psychiatric assis
 It combines semantic search, LLM reasoning, and patient-specific memory into a simple but powerful mental-health AI prototype.
 
 🌟 Features
+
 🔹 1. RAG Memory System (Semantic Search)
 
 Uses BGE-small (bge-small-en-v1.5) embeddings to convert questions into vectors.
