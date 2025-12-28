@@ -83,3 +83,15 @@ Generates response
 Saves it for future queries
 
 This mirrors real-world digital mental-health assistants.
+
+🔧 Future Enhancements
+
+Vector DB integration (Pinecone/Chroma)
+
+Crisis/suicide-risk detection
+
+SOAP note generation
+
+Authentication + clinician dashboard
+
+Dockerized deployment
