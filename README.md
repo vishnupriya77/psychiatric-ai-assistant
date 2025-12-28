@@ -64,15 +64,6 @@ Sends patient_id + question
 
 Shows memory-based or LLM-generated answers
 
-🏗️ Architecture Overview
-
-Frontend (HTML Chat UI)
-           │
-           ▼
-FastAPI Backend → RAG Memory → (if match) Return Answer
-           │
-           └──→ LLM (OpenRouter) → Save to Memory → Return Answer
-
 🧪 Example Interaction Flow
 
 User asks: “Why do I feel anxious at night?”
