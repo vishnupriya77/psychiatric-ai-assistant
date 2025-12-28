@@ -1,98 +1,94 @@
-🧠 Psychiatric AI Assistant (RAG-Based Mental Health Support System)
+🧠 Psychiatric AI Assistant (RAG-Based Mental Health Support)
 
-This project is a Retrieval-Augmented Generation (RAG) powered psychiatric assistant designed to simulate how clinicians can store patient history, recall past interactions, and generate safe, contextual responses.
-It combines semantic search, LLM reasoning, and patient-specific memory into a simple but powerful mental-health AI prototype.
+A Retrieval-Augmented Generation (RAG) system that simulates how psychiatric tools store patient history, retrieve past interactions, and generate safe, personalized mental-health responses. The system combines semantic search (embeddings) + LLM reasoning + patient-specific memory, wrapped in a clean FastAPI backend with a simple chat UI.
 
-🌟 Features
+🌟 Key Features
 
-🔹 1. RAG Memory System (Semantic Search)
+🔹 1. RAG Memory Search (Semantic Retrieval)
 
-Uses BGE-small (bge-small-en-v1.5) embeddings to convert questions into vectors.
+Uses BGE-small-en-v1.5 embeddings
 
-Performs cosine similarity search to find previously asked questions.
+Converts all questions into vectors
 
-If similarity score ≥ 0.97 → returns the stored answer instantly.
+Performs cosine similarity search
 
-🔹 2. LLM Fallback (OpenRouter)
+If similarity ≥ 0.97 → returns stored answer
 
-When a question is new, the assistant:
+Gives consistent behaviour across sessions
 
-Reads the patient’s mental health history,
+🔹 2. LLM Fallback for New Questions
 
-Sends the query + history to an OpenRouter LLM (e.g., Llama / Mistral),
+When no similar question exists:
 
-Returns a tailored and safe response.
+Loads patient history
+
+Sends structured prompt to OpenRouter (Llama/Mistral etc.)
+
+Generates a safe, contextual psychiatric response
+
+This ensures personalized, clinically-aware answers.
 
 🔹 3. Auto-Learning Memory
 
-Every new Q/A pair is:
+Every new question/answer pair is:
 
-Embedded,
+Embedded
 
-Stored in memory,
+Saved under the patient’s ID
 
-Used for future retrieval.
+Used for future RAG retrieval
 
-This creates a growing personalized psychiatric knowledge base.
+The system gets smarter with every conversation.
 
 🔹 4. Multi-Patient Support
 
 Each patient has:
 
-A unique ID
+Unique ID
 
-A history
+Psychiatric history
 
-Separate Q/A memory
+Individual memory store (Q/A + embeddings)
 
-System responds differently depending on the patient’s context.
+You can load 1…N patients via a CSV file.
 
-🔹 5. Minimalist Frontend (Chat UI)
+🔹 5. Clean WhatsApp-Style Chat UI
 
-WhatsApp-style clean chat interface
+Frontend features:
 
-Sends questions to FastAPI backend
+Bubble chat
 
-Displays LLM or memory-based responses
+Typing indicator
 
-🚀 How the System Works
+Sends patient_id + question
 
-User asks a question
+Shows memory-based or LLM-generated answers
 
-System embeds the question → searches memory using cosine similarity
+🏗️ Architecture Overview
 
-If similar question found → return memory answer
+Frontend (HTML Chat UI)
+           │
+           ▼
+FastAPI Backend → RAG Memory → (if match) Return Answer
+           │
+           └──→ LLM (OpenRouter) → Save to Memory → Return Answer
+
+🧪 Example Interaction Flow
+
+User asks: “Why do I feel anxious at night?”
+
+System embeds question & searches memory
+
+If similar Q exists → returns stored answer
 
 If not:
 
-Retrieve patient history
+Loads patient history
 
-Send query to OpenRouter LLM
+Passes everything to LLM
 
-Return AI-generated answer
+Generates response
 
-Store new answer in memory for future use
+Saves it for future queries
 
-This pipeline allows:
-
-Faster responses
-
-High consistency
-
-Patient-aware personalization
-
-Cost-efficient LLM usage
-
-🙌 Contributions & Extensions
-
-You can extend this POC to include:
-
-Vector database (Pinecone / Chroma)
-
-Crisis detection (self-harm classifier)
-
-Fine-tuned patient-specific LLMs
-
-Secure authentication & role-based access
-
-EMR (Electronic Medical Record) integration
+This mirrors real-world digital mental-health assistants.
