@@ -1,28 +1,97 @@
-🧠 Psychiatric AI Assistant (RAG-Based POC)
+🧠 Psychiatric AI Assistant (RAG-Based Mental Health Support System)
 
-A lightweight Retrieval-Augmented Generation (RAG) system designed for psychiatric support and mental-health research.
-The assistant personalizes responses using patient-specific memory, semantic search, and OpenRouter LLMs.
+This project is a Retrieval-Augmented Generation (RAG) powered psychiatric assistant designed to simulate how clinicians can store patient history, recall past interactions, and generate safe, contextual responses.
+It combines semantic search, LLM reasoning, and patient-specific memory into a simple but powerful mental-health AI prototype.
 
-🚀 Key Features
+🌟 Features
+🔹 1. RAG Memory System (Semantic Search)
 
-RAG Pipeline → Retrieves similar past questions using BGE embeddings (bge-small-en-v1.5)
+Uses BGE-small (bge-small-en-v1.5) embeddings to convert questions into vectors.
 
-Multi-Patient Memory → Each patient has their own history & Q/A records
+Performs cosine similarity search to find previously asked questions.
 
-LLM Fallback → If no similar question is found, system calls OpenRouter (free models)
+If similarity score ≥ 0.97 → returns the stored answer instantly.
 
-Auto-Learning → New Q/A pairs are embedded and stored for future retrieval
+🔹 2. LLM Fallback (OpenRouter)
 
-Frontend Chat UI → Simple WhatsApp-style interface for real usage
+When a question is new, the assistant:
 
-🧪 How It Works (RAG Flow)
+Reads the patient’s mental health history,
+
+Sends the query + history to an OpenRouter LLM (e.g., Llama / Mistral),
+
+Returns a tailored and safe response.
+
+🔹 3. Auto-Learning Memory
+
+Every new Q/A pair is:
+
+Embedded,
+
+Stored in memory,
+
+Used for future retrieval.
+
+This creates a growing personalized psychiatric knowledge base.
+
+🔹 4. Multi-Patient Support
+
+Each patient has:
+
+A unique ID
+
+A history
+
+Separate Q/A memory
+
+System responds differently depending on the patient’s context.
+
+🔹 5. Minimalist Frontend (Chat UI)
+
+WhatsApp-style clean chat interface
+
+Sends questions to FastAPI backend
+
+Displays LLM or memory-based responses
+
+🚀 How the System Works
 
 User asks a question
 
-System generates embedding → performs semantic search
+System embeds the question → searches memory using cosine similarity
 
-If similarity ≥ 0.97 → return stored memory
+If similar question found → return memory answer
 
-Else → call LLM with patient history
+If not:
 
-New answer is stored + embedded for next time
+Retrieve patient history
+
+Send query to OpenRouter LLM
+
+Return AI-generated answer
+
+Store new answer in memory for future use
+
+This pipeline allows:
+
+Faster responses
+
+High consistency
+
+Patient-aware personalization
+
+Cost-efficient LLM usage
+
+🙌 Contributions & Extensions
+
+You can extend this POC to include:
+
+Vector database (Pinecone / Chroma)
+
+Crisis detection (self-harm classifier)
+
+Fine-tuned patient-specific LLMs
+
+Secure authentication & role-based access
+
+EMR (Electronic Medical Record) integration
