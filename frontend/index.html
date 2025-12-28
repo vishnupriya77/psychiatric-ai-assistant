@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Psychiatric AI Assistant</title>
+    <style>
+        body {
+            background: #e5ddd5;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+        }
+
+        .header {
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            background: #0a7cff;
+            color: white;
+            text-align: center;
+        }
+
+        .patient-select {
+            padding: 10px;
+            background: #f4f4f4;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .patient-select select {
+            padding: 6px 10px;
+            font-size: 14px;
+            border-radius: 6px;
+            border: 1px solid #aaa;
+        }
+
+        .messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 12px;
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 10px;
+            line-height: 1.4;
+        }
+
+        .user {
+            background: #dcf8c6;
+            align-self: flex-end;
+        }
+
+        .ai {
+            background: #fff;
+            border: 1px solid #ddd;
+            align-self: flex-start;
+        }
+
+        .input-area {
+            padding: 10px;
+            display: flex;
+            border-top: 1px solid #ccc;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        button {
+            margin-left: 10px;
+            padding: 10px 20px;
+            background-color: #0a7cff;
+            border: none;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005fcc;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="chat-container">
+
+    <div class="header">Psychiatric AI Assistant</div>
+
+    <!-- Patient Dropdown -->
+    <div class="patient-select">
+        <label><b>Patient:</b></label>
+        <select id="patientId">
+            <option value="1">Patient 1</option>
+            <option value="2">Patient 2</option>
+            <option value="3">Patient 3</option>
+            <option value="4">Patient 4</option>
+            <option value="5">Patient 5</option>
+        </select>
+    </div>
+
+    <div class="messages" id="messages"></div>
+
+    <div class="input-area">
+        <input id="input" type="text" placeholder="Ask something..." />
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script>
+    async function sendMessage() {
+        const input = document.getElementById("input");
+        const messagesDiv = document.getElementById("messages");
+        const question = input.value.trim();
+
+        if (!question) return;
+
+        const patientId = document.getElementById("patientId").value;
+
+        // Add user bubble
+        const userMsg = document.createElement("div");
+        userMsg.classList.add("message", "user");
+        userMsg.textContent = question;
+        messagesDiv.appendChild(userMsg);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+        input.value = "";
+
+        // Add temporary AI typing bubble
+        const aiTyping = document.createElement("div");
+        aiTyping.classList.add("message", "ai");
+        aiTyping.textContent = "Typing...";
+        messagesDiv.appendChild(aiTyping);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+        // Send request to backend
+        const response = await fetch("http://127.0.0.1:8000/ask", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                patient_id: patientId,
+                question: question
+            })
+        });
+
+        const data = await response.json();
+
+        // Replace typing bubble with real response
+        aiTyping.textContent = data.answer;
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+</script>
+
+</body>
+</html>
